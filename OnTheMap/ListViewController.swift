@@ -13,6 +13,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     //Initializes the Students Variable that will be used to populate the List
     var studentsloc: [ParseStudents] = [ParseStudents]()
+    var userdata: [UdacityUser] = [UdacityUser]()
 
     
     // Populates the List
@@ -61,6 +62,10 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     // MARK: Outlets
     @IBOutlet weak var ListTableView: UITableView!
+    @IBOutlet weak var Logout: UIBarButtonItem!
+    @IBOutlet weak var Refresh: UIBarButtonItem!
+    @IBOutlet weak var EditUser: UIBarButtonItem!
+
     
     
     override func viewDidLoad() {
@@ -80,16 +85,33 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     
     // LogOut Button
-    @IBAction func logout(sender: AnyObject) {
-        dispatch_async(dispatch_get_main_queue(), {
-            self.dismissViewControllerAnimated(true, completion: nil)
-        })
+    @IBAction func LogOutPressed (sender: AnyObject) {
+        UdacityClient.sharedInstance().UdacityLogOut() {(success, errorString) in
+            if (success == true) {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                    }
+                )
+            } else {
+                print("Unable to LogOut!")
+                self.errorAlert("Unable to LogOut! TryAgain")
+            }
+        }
     }
+
     
 /////////////////////////
-    @IBAction func infoPosting(sender: AnyObject) {
-        //let controller = self.storyboard!.instantiateViewControllerWithIdentifier("InfoPostingViewController")
-       // self.presentViewController(controller, animated: true, completion: nil)
+    @IBAction func EditPin(sender: AnyObject) {
+        UdacityClient.sharedInstance().UdacityUserData() {(success, results, errorString) in
+            if(results != nil) {
+                self.userdata = results!
+                    print("Found all student values for \(self.userdata.uFirstname)")
+                
+            } else {
+                print("Could not find all student values")
+                self.errorAlert("Unable to get student data. Please try again.")
+              }
+        }
     }
     
     

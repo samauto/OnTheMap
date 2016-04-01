@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -180,15 +181,23 @@
                                         <barButtonItem key="leftBarButtonItem" image="Logout" id="Qfd-eW-lJU">
                                             <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
-                                                <action selector="logout:" destination="JEm-RX-x8i" id="Whq-Zl-Kjv"/>
+                                                <action selector="LogOutPressed:" destination="JEm-RX-x8i" id="nfx-3O-5yq"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" image="Refresh" id="jjs-Ps-irW">
-                                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <connections>
-                                                <action selector="refresh" destination="JEm-RX-x8i" id="u8d-Ha-KmT"/>
-                                            </connections>
-                                        </barButtonItem>
+                                        <rightBarButtonItems>
+                                            <barButtonItem image="Refresh" id="jjs-Ps-irW">
+                                                <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <connections>
+                                                    <action selector="refresh" destination="JEm-RX-x8i" id="u8d-Ha-KmT"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem image="Add_Edit" id="Twn-oq-Aca">
+                                                <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <connections>
+                                                    <action selector="EditPin:" destination="JEm-RX-x8i" id="ffb-P7-qYh"/>
+                                                </connections>
+                                            </barButtonItem>
+                                        </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -221,7 +230,10 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="List" image="List" id="qgF-8K-SaQ"/>
                     <connections>
+                        <outlet property="EditUser" destination="Twn-oq-Aca" id="CqP-At-NrX"/>
                         <outlet property="ListTableView" destination="0dn-za-WZJ" id="Tax-oS-FPM"/>
+                        <outlet property="Logout" destination="Qfd-eW-lJU" id="M8e-ZU-i7c"/>
+                        <outlet property="Refresh" destination="jjs-Ps-irW" id="eJH-zq-PfA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m42-L9-JRi" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -8,11 +8,11 @@
 
 import UIKit
 
-// MARK: - Udacity Constants
+// Udacity Constants
 
 struct UConstants {
     
-    // MARK: Api
+    // Api
     struct UdacityApi {
         static let Scheme = "https"
         static let Host = "www.udacity.com"
@@ -24,20 +24,19 @@ struct UConstants {
         static let UdacityUserURL = Scheme+"://"+Host+Path+UserPath
     }
     
-    // MARK: Parameters
+    // Parameters
     struct UParameters {
         static let Udacity = "udacity"
         static let Username = "username"
         static let Password = "password"
     }
     
-    
-    // MARK: Facebook
+    // Facebook
     struct UFacebook {
         static let FacebookAppID : String = "365362206864879"
     }
     
-    // MARK: JSON Response Keys
+    // JSON Response Keys
     struct UResponseKeys {
         
         static let UserID = "key"
@@ -46,5 +45,14 @@ struct UConstants {
         static let Expiration = "expiration"
     }
     
+    // User
+    struct UData {
+        static let ufirst = "first_name"
+        static let ulast = "last_name"
+        static let ulocation = "location"
+        static let ulink = "website_url"
+        static let ukey = "key"
+    }
+
 }
 

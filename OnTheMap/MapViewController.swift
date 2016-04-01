@@ -44,12 +44,19 @@ import MapKit
         
         // LogOut Button
         @IBAction func LogOutPressed (sender: AnyObject) {
-            
-            dispatch_async(dispatch_get_main_queue(), {
-                self.dismissViewControllerAnimated(true, completion: nil)
-            })
+            UdacityClient.sharedInstance().UdacityLogOut() {(success, errorString) in
+                if (success == true) {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                        }
+                    )
+                } else {
+                    print("Unable to LogOut!")
+                    self.errorAlert("Unable to LogOut! TryAgain")
+                  }
+            }
         }
-            
+        
         
         // Loads the Students and add them to the pin array that will populate the map
         func loadStudents() {
