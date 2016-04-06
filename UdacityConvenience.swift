@@ -15,31 +15,27 @@ extension UdacityClient {
     
     // MARK: GET Convenience Methods
     
-    func getStudentLocations(completionHandlerForStudents: (success: Bool, result: [UdacityUser]?, errorString: String?) -> Void) {
+    func getUserLocations(completionHandlerForUser: (success: Bool, result: [String: AnyObject]?, errorString: String?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
-        let mutableMethod: String = ParseClient.Constants.ParseStudentLocationDataURL
+        let mutableMethod: String = UdacityClient.UdacityApi.UdacityUserURL+"/"+UserID!
+        
         
         /* 2. Make the request */
-        taskForGETMethod(mutableMethod) { (success, results, error) in
+        taskForGETUserMethod(mutableMethod) { (success, results, error) in
             
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
-                completionHandlerForStudents(success: false, result: nil, errorString: error)
+                completionHandlerForUser(success: false, result: nil, errorString: error)
             } else {
-                
-                if let results = results[ParseClient.JSONResponseKeys.StudentResults] as? [[String:AnyObject]] {
-                    
-                    let students = ParseStudents.studentsFromResults(results)
-                    
-                    completionHandlerForStudents(success: true, result: students, errorString: nil)
+                if let user = results[UdacityClient.UData.UserResults] as? [String:AnyObject] {
+                  
+                    completionHandlerForUser(success: true, result: user, errorString: nil)
                 } else {
-                    completionHandlerForStudents(success: false, result: nil, errorString: "Could not parse getStudentLocations")
-                }
-            }
+                    completionHandlerForUser(success: false, result: nil, errorString: "Could not parse getUserData")
+                  }
+              }
         }
     }
-    
-    
-}
 
+}

@@ -22,10 +22,11 @@ class ParseClient : NSObject {
         super.init()
     }
     
-    // MARK: GET
+    // MARK: GETting StudentLocations
     func taskForGETMethod(method: String, completionHandlerForGET: (success: Bool, result: AnyObject!, errorString: String?) -> Void) -> NSURLSessionDataTask{
         
         /* 1. Set the parameters */
+        //Let request = NSMutableURLRequest(URL: NSURL(string:method!)!)
         
         /* 2/3. Build the URL, Configure the request */
         let request = NSMutableURLRequest(URL: NSURL(string: "https://api.parse.com/1/classes/StudentLocation")!)
@@ -64,9 +65,9 @@ class ParseClient : NSObject {
     }
     
     
-    // MARK: POST
+    // MARK: POSTing a StudentLocation
     
-    func taskForPOSTMethod(method: String, parameters: [String:AnyObject], jsonBody: String, completionHandlerForPOST: (success: Bool, result: AnyObject!, errorString: String?) -> Void) -> NSURLSessionDataTask {
+    func taskForPOSTMethod(method: String, jBody: [String:AnyObject], completionHandlerForPOST: (success: Bool,  result: AnyObject!, errorString: String?) -> Void) -> NSURLSessionDataTask {
         
         /* 1. Set the parameters */
         //parameters[ParameterKeys.ApiKey] = Constants.ApiKey
@@ -74,39 +75,28 @@ class ParseClient : NSObject {
         /* 2/3. Build the URL, Configure the request */
         let request = NSMutableURLRequest(URL: NSURL(string: "https://api.parse.com/1/classes/StudentLocation")!)
         request.HTTPMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue(ParseClient.Constants.AppID, forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue(ParseClient.Constants.ApiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.HTTPBody = jsonBody.dataUsingEncoding(NSUTF8StringEncoding)
+        request.HTTPBody = "{\"uniqueKey\" : \"\(jBody["uniqueKey"]!)\", \"firstName\" : \"\(jBody["firstName"]!)\", \"lastName\" : \"\(jBody["lastName"]!)\",\"mapString\" : \"\(jBody["mapString"]!)\", \"mediaURL\" : \"\(jBody["mediaURL"]!)\", \"latitude\" : \(jBody["latitude"]!), \"longitude\" : \(jBody["longitude"]!)}".dataUsingEncoding(NSUTF8StringEncoding)
         
         /* 4. Make the request */
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
-            func sendError(error: String) {
-                print(error)
-                let userInfo = [NSLocalizedDescriptionKey : error]
-                //completionHandlerForPOST(result: nil, error: NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
-            }
-            
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                sendError("There was an error with your request: \(error)")
+                completionHandlerForPOST(success: false, result: nil,   errorString: "There was an error with your request: \(error)")
                 return
             }
             
             /* GUARD: Did we get a successful 2XX response? */
             guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-                sendError("Your request returned a status code other than 2xx!")
-                return
-            }
-            
-            /* GUARD: Was there any data returned? */
-            guard let data = data else {
-                sendError("No data was returned by the request!")
+                completionHandlerForPOST(success: false, result: nil,  errorString: "Your request returned a status code other than 2xx!:")
                 return
             }
             
             /* 5/6. Parse the data and use the data (happens in completion handler) */
-            self.convertDataWithCompletionHandler(data, completionHandlerForConvertData: completionHandlerForPOST)
+            self.convertDataWithCompletionHandler(data!, completionHandlerForConvertData: completionHandlerForPOST)
         }
         
         /* 7. Start the request */
@@ -138,8 +128,8 @@ class ParseClient : NSObject {
         completionHandlerForConvertData(success: true, result: parsedResult, errorString: nil)
     }
     
-    // MARK: Shared Instance
     
+    // Shared Instance
     class func sharedInstance() -> ParseClient {
         struct Singleton {
             static var sharedInstance = ParseClient()

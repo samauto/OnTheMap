@@ -10,7 +10,7 @@ import UIKit
 
 // Udacity Constants
 
-struct UConstants {
+extension UdacityClient {
     
     // Api
     struct UdacityApi {
@@ -47,6 +47,7 @@ struct UConstants {
     
     // User
     struct UData {
+        static let UserResults = "user"
         static let ufirst = "first_name"
         static let ulast = "last_name"
         static let ulocation = "location"

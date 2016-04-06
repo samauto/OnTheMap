@@ -29,7 +29,7 @@ class UdacityClient : NSObject {
     // POSTing (Creating a Session)
     func UdacityLogin(username: String, password: String, completionHandler: (success: Bool, errorString: String?) -> Void ) {
         
-        let request = NSMutableURLRequest(URL: NSURL(string:UConstants.UdacityApi.UdacitySessionURL)!)
+        let request = NSMutableURLRequest(URL: NSURL(string:UdacityClient.UdacityApi.UdacitySessionURL)!)
 
         request.HTTPMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -41,12 +41,6 @@ class UdacityClient : NSObject {
             /* GUARD: Was there an error? */
             guard (error == nil) else {
                 completionHandler(success: false, errorString: "There was an error with your request: \(error)")
-                return
-            }
-            
-            /* GUARD: Did we get a successful 2XX response? */
-            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-                completionHandler(success: false, errorString: "Your request returned a status code other than 2xx!")
                 return
             }
             
@@ -83,7 +77,7 @@ class UdacityClient : NSObject {
     // DELETEing (Logging Out Of) a Session
     func UdacityLogOut(completionHandler: (success: Bool, errorString: String?) -> Void ) {
         
-        let request = NSMutableURLRequest(URL: NSURL(string:UConstants.UdacityApi.UdacitySessionURL)!)
+        let request = NSMutableURLRequest(URL: NSURL(string:UdacityClient.UdacityApi.UdacitySessionURL)!)
         request.HTTPMethod = "DELETE"
         
         var xsrfCookie: NSHTTPCookie? = nil
@@ -137,38 +131,38 @@ class UdacityClient : NSObject {
     
     
     // GETting Public User Data
-    func UdacityUserData(completionHandler: (success: Bool, results: [UdacityUser]?, errorString: String?) -> Void ) {
+    func taskForGETUserMethod(method: String, completionHandlerForGET: (success: Bool, results: AnyObject!, errorString: String?) -> Void) -> NSURLSessionDataTask{
         
-        let request = NSMutableURLRequest(URL: NSURL(string:UConstants.UdacityApi.UdacityUserURL+"/"+UserID!)!)
+        let request = NSMutableURLRequest(URL: NSURL(string:method)!)
         
         let task = session.dataTaskWithRequest(request) { data, response, error in
+            
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                completionHandler(success: false, results:nil, errorString: "There was an error with your request: \(error)")
+                completionHandlerForGET(success: false, results:nil, errorString: "There was an error with your request: \(error)")
                 return
             }
             
             /* GUARD: Did we get a successful 2XX response? */
             guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-                completionHandler(success: false, results:nil, errorString: "Your request returned a status code other than 2xx!")
+                completionHandlerForGET(success: false, results:nil, errorString: "Your request returned a status code other than 2xx!")
                 return
             }
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
-                completionHandler(success: false, results:nil, errorString: "No data was returned by the request!")
+                completionHandlerForGET(success: false, results:nil, errorString: "No data was returned by the request!")
                 return
             }
             
             let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
             
-            self.convertDataWithCompletionHandler(newData, completionHandlerForConvertData: completionHandler)
-            
-            //completionHandler (success: true, result: parsedResult, errorString: "")
-            
+            self.convertDataWithCompletionHandler(newData, completionHandlerForConvertData: completionHandlerForGET)
         }
         
         task.resume()
+        
+        return task
     }
 
     

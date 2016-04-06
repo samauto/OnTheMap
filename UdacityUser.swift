@@ -15,23 +15,23 @@ struct UdacityUser {
     
     let uFirstname: String
     let uLastname: String
-    let id: String
+    
+    let id: String?
     let uLoc: String?
     let uLink: String?
-    
     
     // MARK: Initializers
     
     // construct a ParseStudent from a dictionary
     init(dictionary: [String:AnyObject]) {
-        uFirstname = dictionary[UConstants.UData.ufirst] as! String
-        uLastname = dictionary[UConstants.UData.ulast] as! String
-        uLink = dictionary[UConstants.UData.ulink] as? String
-        uLoc = dictionary[UConstants.UData.ulocation] as? String
-        id = dictionary[UConstants.UData.ukey] as! String
+        uFirstname = dictionary[UdacityClient.UData.ufirst] as! String
+        uLastname = dictionary[UdacityClient.UData.ulast] as! String
+        uLink = dictionary[UdacityClient.UData.ulink] as? String
+        uLoc = dictionary[UdacityClient.UData.ulocation] as? String
+        id = dictionary[UdacityClient.UData.ukey] as? String
     }
     
-    static func UserFromResults(results: [[String:AnyObject]]) -> [UdacityUser] {
+    static func userFromResults(results: [[String:AnyObject]]) -> [UdacityUser] {
         
         var user = [UdacityUser]()
         

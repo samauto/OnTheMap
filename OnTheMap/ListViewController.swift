@@ -13,7 +13,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     //Initializes the Students Variable that will be used to populate the List
     var studentsloc: [ParseStudents] = [ParseStudents]()
-    var userdata: [UdacityUser] = [UdacityUser]()
+
 
     
     // Populates the List
@@ -102,17 +102,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
 /////////////////////////
     @IBAction func EditPin(sender: AnyObject) {
-        UdacityClient.sharedInstance().UdacityUserData() {(success, results, errorString) in
-            if(results != nil) {
-                self.userdata = results!
-                    print("Found all student values for \(self.userdata.uFirstname)")
-                
-            } else {
-                print("Could not find all student values")
-                self.errorAlert("Unable to get student data. Please try again.")
-              }
-        }
-    }
+            }
     
     
     // Loads the Student Info
