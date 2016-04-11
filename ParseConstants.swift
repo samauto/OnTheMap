@@ -31,10 +31,10 @@ extension ParseClient {
  
         // MARK: URL
         static let ParseStudentLocationDataURL = ApiScheme+"://"+ApiHost+ApiPath+Classes+ClassesStudentLocations
-
     }
     
 
+    
     // MARK: Parameter Keys
     struct ParameterKeys {
         static let ApiKey = "api_key"

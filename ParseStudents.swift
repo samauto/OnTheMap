@@ -17,11 +17,11 @@ struct ParseStudents {
     let firstname: String
     let lastname: String
     
-    let Loc: String?
-    let Link: String?
-    let id: String?
-    let lat: Double?
-    let long: Double?
+    let Loc: String
+    let Link: String
+    let id: String
+    let lat: Double
+    let long: Double
 
     
     // MARK: Initializers
@@ -30,11 +30,11 @@ struct ParseStudents {
     init(dictionary: [String:AnyObject]) {
         firstname = dictionary[ParseClient.JSONResponseKeys.firstName] as! String
         lastname = dictionary[ParseClient.JSONResponseKeys.lastName] as! String
-        Link = dictionary[ParseClient.JSONResponseKeys.mediaURL] as? String
-        Loc = dictionary[ParseClient.JSONResponseKeys.mapString] as? String
-        id = dictionary[ParseClient.JSONResponseKeys.objectId] as? String
-        lat = dictionary[ParseClient.JSONResponseKeys.latitude] as? Double
-        long = dictionary[ParseClient.JSONResponseKeys.longitude] as? Double
+        Link = (dictionary[ParseClient.JSONResponseKeys.mediaURL] as? String)!
+        Loc = (dictionary[ParseClient.JSONResponseKeys.mapString] as? String)!
+        id = (dictionary[ParseClient.JSONResponseKeys.objectId] as? String)!
+        lat = (dictionary[ParseClient.JSONResponseKeys.latitude] as? Double)!
+        long = (dictionary[ParseClient.JSONResponseKeys.longitude] as? Double)!
     }
     
     static func studentsFromResults(results: [[String:AnyObject]]) -> [ParseStudents] {

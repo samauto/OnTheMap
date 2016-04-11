@@ -15,11 +15,12 @@ extension ParseClient {
     
     // MARK: GET Convenience Methods
     
+    // Get Student Locations
     func getStudentLocations(completionHandlerForStudents: (success: Bool, result: [ParseStudents]?, errorString: String?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
         let mutableMethod: String = ParseClient.Constants.ParseStudentLocationDataURL
-        
+
         /* 2. Make the request */
         taskForGETMethod(mutableMethod) { (success, results, error) in
             
@@ -41,6 +42,7 @@ extension ParseClient {
     }
     
     
+    // POST Student Locations
     func postStudentLocations(JBody: [String:AnyObject], completionHandlerForStudents: (success: Bool, errorString: String?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
@@ -55,17 +57,40 @@ extension ParseClient {
                 completionHandlerForStudents(success: false, errorString: "Posting Student Location Failed.")
                 return
             }
-            
+
             if let error = error {
                 completionHandlerForStudents(success: false, errorString: error)
             } else {
+                
                 completionHandlerForStudents(success: true, errorString: nil)
               }
         }
     }
 
     
-    
-    
+    // UPDATE Student Locations
+    func updateStudentLocations(ID: String, JBody: [String:AnyObject], completionHandlerForStudents: (success: Bool, errorString: String?) -> Void) {
+        
+        /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
+        let mutableMethod: String = ParseClient.Constants.ParseStudentLocationDataURL+"/"+ID
+        
+        /* 2. Make the request */
+        taskForPUTMethod(mutableMethod, jBody: JBody) { (success, result, error) in
+
+            /* Send the desired value(s) to completion handler */
+            guard (error == nil) else {
+                completionHandlerForStudents(success: false, errorString: "Updating Student Location Failed.")
+                return
+            }
+
+            if let error = error {
+                completionHandlerForStudents(success: false, errorString: error)
+            } else {
+                
+                completionHandlerForStudents(success: true, errorString: nil)
+            }
+        }
+    }
+
     
 }

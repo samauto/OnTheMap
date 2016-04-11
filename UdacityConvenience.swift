@@ -15,7 +15,7 @@ extension UdacityClient {
     
     // MARK: GET Convenience Methods
     
-    func getUserLocations(completionHandlerForUser: (success: Bool, result: [String: AnyObject]?, errorString: String?) -> Void) {
+    func getUserLocations(completionHandlerForUser: (success: Bool, result: [UdacityUser]?, errorString: String?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
         let mutableMethod: String = UdacityClient.UdacityApi.UdacityUserURL+"/"+UserID!
@@ -28,9 +28,11 @@ extension UdacityClient {
             if let error = error {
                 completionHandlerForUser(success: false, result: nil, errorString: error)
             } else {
-                if let user = results[UdacityClient.UData.UserResults] as? [String:AnyObject] {
-                  
-                    completionHandlerForUser(success: true, result: user, errorString: nil)
+                if let results = results[UdacityClient.UData.UserResults] as? [String:AnyObject] {
+                
+                    let users = UdacityUser.userFromResults(results)
+                    
+                    completionHandlerForUser(success: true, result: users, errorString: nil)
                 } else {
                     completionHandlerForUser(success: false, result: nil, errorString: "Could not parse getUserData")
                   }

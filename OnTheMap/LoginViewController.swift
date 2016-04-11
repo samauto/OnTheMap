@@ -28,8 +28,6 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view, typically from a nib.
-        emailTextInput.text = "samauto@gmail.com"
-        passwordTextInput.text = "Iris88erin"
         
         //Get the shared URL Session
         session = NSURLSession.sharedSession()
