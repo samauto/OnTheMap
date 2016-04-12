@@ -44,18 +44,74 @@ class UpdateLocViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var MediaUrlLabel: UILabel!
     @IBOutlet weak var CurrentLocLabel: UILabel!
     
+    @IBOutlet weak var botConstraint: NSLayoutConstraint!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+
+        initializeTextFields()
         UserLocation()
+        LocNowInput.delegate = self
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(UpdateLocViewController.dismissKey)))
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        
+        //To retrieve keyboard size, uncomment following line
+        //let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue()
+        botConstraint.constant = 260
+        UIView.animateWithDuration(0.3) {
+            self.view.layoutIfNeeded()
+        }
+   }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        //To retrieve keyboard size, uncomment following line
+        //let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue()
+        botConstraint.constant = 20
+        UIView.animateWithDuration(0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func dismissKey() {
+        LocNowInput.resignFirstResponder()
+    }
+    
+    
+    func initializeTextFields() {
         LocNowInput.delegate = self
     }
     
+    func textFieldShouldReturn(textField: UITextField) ->Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
         UserLocation()
         
     }
     
+    func adjustingHeight(show:Bool, notification:NSNotification) {
+        // 1
+        var userInfo = notification.userInfo!
+        // 2
+        let keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
+        // 3
+        let animationDurarion = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
+        // 4
+        let changeInHeight = (CGRectGetHeight(keyboardFrame) + 40) * (show ? 1 : -1)
+        //5
+        UIView.animateWithDuration(animationDurarion, animations: { () -> Void in
+            self.botConstraint.constant += changeInHeight
+        })
+        
+    }
     
     // FUNC: FindOpMap Pressed
     @IBAction func FinOnMapPressed(sender:AnyObject)
@@ -70,10 +126,11 @@ class UpdateLocViewController: UIViewController, UITextFieldDelegate {
     // FUNC: Prepare for Seque
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let usernewlocViewController: AddLocViewController = segue.destinationViewController as? AddLocViewController {
-            usernewlocViewController.searchLoc = self.LocNowInput.text!
-            usernewlocViewController.searchName = self.UserName.text!
+                 usernewlocViewController.searchName = self.UserName.text!
             usernewlocViewController.searchID = self.UserID.text!
             usernewlocViewController.searchCurrLoc = self.UserCurrentLoc.text!
+            usernewlocViewController.searchLoc = self.LocNowInput.text!
+            
             usernewlocViewController.searchURL = self.UserMediaURL.text!
             usernewlocViewController.searchFirst = self.searchFirst
             usernewlocViewController.searchLast = self.searchLast

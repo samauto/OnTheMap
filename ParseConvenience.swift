@@ -19,8 +19,10 @@ extension ParseClient {
     func getStudentLocations(completionHandlerForStudents: (success: Bool, result: [ParseStudents]?, errorString: String?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
-        let mutableMethod: String = ParseClient.Constants.ParseStudentLocationDataURL
-
+        let meth: String = ParseClient.Constants.ParseStudentLocationDataURL
+        let optpara: String = ParseClient.Constants.ParseStudentLocationOptional
+        let mutableMethod: String = meth+optpara
+    
         /* 2. Make the request */
         taskForGETMethod(mutableMethod) { (success, results, error) in
             

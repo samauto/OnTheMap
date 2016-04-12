@@ -40,7 +40,6 @@ import MapKit
         //FUNC: viewDidLoad
         override func viewDidLoad() {
             super.viewDidLoad()
-            RefreshPressed()
             loadStudents()
         }
     
@@ -48,7 +47,6 @@ import MapKit
         //FUNC: viewWillAppear
         override func viewWillAppear(animated: Bool) {
             super.viewWillAppear(true)
-            loadStudents()
         }
     
     
@@ -70,7 +68,6 @@ import MapKit
                         }
                     )
                 } else {
-                    print("Unable to LogOut!")
                     self.popAlert("ERROR", errorString: "Unable to LOGOUT! TryAgain!")
                   }
             }
@@ -142,7 +139,6 @@ import MapKit
                 
                 //Changes the Pin Properties of the User Pins
                 if (annotation.title! == self.userFN){
-                    print(annotation.title!!)
                     pinView!.pinTintColor = UIColor(red: 1.0, green:0.0, blue:0.0, alpha: 1.0)
                     pinView!.animatesDrop = true
                     

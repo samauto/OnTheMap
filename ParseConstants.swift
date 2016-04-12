@@ -31,6 +31,13 @@ extension ParseClient {
  
         // MARK: URL
         static let ParseStudentLocationDataURL = ApiScheme+"://"+ApiHost+ApiPath+Classes+ClassesStudentLocations
+        
+        // MARK: Optional Paramaters
+        static let limt = "limit=100"
+        static let skip = "skip=400"
+        static let order = "order=-updatedAt"
+        
+        static let ParseStudentLocationOptional = "?"+order
     }
     
 

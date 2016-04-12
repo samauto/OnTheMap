@@ -19,8 +19,7 @@ extension UdacityClient {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
         let mutableMethod: String = UdacityClient.UdacityApi.UdacityUserURL+"/"+UserID!
-        
-        
+    
         /* 2. Make the request */
         taskForGETUserMethod(mutableMethod) { (success, results, error) in
             

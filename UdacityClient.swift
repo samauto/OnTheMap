@@ -15,9 +15,11 @@ class UdacityClient : NSObject {
     // shared session
     var session = NSURLSession()
     
+    
     // authentication state
-    var SessID: String? = nil
-    var UserID: String? = nil
+    var SessID: String?
+    var UserID: String?
+    var loginError: String? = ""
     
     // MARK: Initializers
     override init() {
@@ -27,7 +29,7 @@ class UdacityClient : NSObject {
     
     
     // POSTing (Creating a Session)
-    func UdacityLogin(username: String, password: String, completionHandler: (success: Bool, errorString: String?) -> Void ) {
+    func UdacityLogin(username: String, password: String, completionHandler: (success: Bool, errorString: String?) -> Void ){
         
         let request = NSMutableURLRequest(URL: NSURL(string:UdacityClient.UdacityApi.UdacitySessionURL)!)
 
@@ -53,26 +55,37 @@ class UdacityClient : NSObject {
             //FOR ALL RESPONSES FROM THE UDACITY API, YOU WILL NEED TO SKIP THE FIRST 5 CHARACTERS OF THE RESPONSE.
             let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
             
+            
             var parsedResult: AnyObject!
             
             do {
                 parsedResult = try NSJSONSerialization.JSONObjectWithData(newData, options: .AllowFragments)
+            
             } catch {
                 completionHandler(success: false, errorString: "The response data could not be parsed")
                 return
               }
             
-            completionHandler(success: true, errorString: "")
+            if let item = parsedResult as? [String: AnyObject] {
+                if let session = item["session"] as? [String: AnyObject] {
+                    
+                    self.loginError = "Account Valid"
+                    self.UserID = ((parsedResult["account"] as! [String: AnyObject])["key"] as! String)
+                    self.SessID = ((parsedResult["session"] as! [String:AnyObject])["id"] as! String)
+                }
+                else {
+                    self.loginError = "Account Invalid"
+                }
+            }
             
-            self.UserID = ((parsedResult["account"] as! [String: AnyObject])["key"] as! String)
-            self.SessID = ((parsedResult["session"] as! [String:AnyObject])["id"]as! String)
-    
-            //print(AcctID, SessID)
+            completionHandler(success: true, errorString: self.loginError )
+            
         }
         
         task.resume()
     }
 
+    
     
     // DELETEing (Logging Out Of) a Session
     func UdacityLogOut(completionHandler: (success: Bool, errorString: String?) -> Void ) {
@@ -112,7 +125,7 @@ class UdacityClient : NSObject {
 
             let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
             
-            var parsedResult: AnyObject!
+            let parsedResult: AnyObject!
             
             do {
                 parsedResult = try NSJSONSerialization.JSONObjectWithData(newData, options: .AllowFragments)

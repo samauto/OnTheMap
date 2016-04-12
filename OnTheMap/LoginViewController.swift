@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
 
     
     // MARK: Outlets
@@ -26,14 +26,33 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        initializeTextFields()
         // Do any additional setup after loading the view, typically from a nib.
         
         //Get the shared URL Session
         session = NSURLSession.sharedSession()
+  
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(LoginViewController.dismissKey)))
+    }
+    
+    func dismissKey() {
+        emailTextInput.resignFirstResponder()
+        passwordTextInput.resignFirstResponder()
+    }
+    
+    
+    func initializeTextFields() {
+        emailTextInput.delegate = self
+        passwordTextInput.delegate = self
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) ->Bool {
+        textField.resignFirstResponder()
+        return true
     }
 
-    
+
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -66,6 +85,7 @@ class LoginViewController: UIViewController {
     @IBAction func loginPressed(sender: AnyObject) {
         if (emailTextInput.text!.isEmpty || passwordTextInput.text!.isEmpty) {
             loginStatement.text = "Username and/or Password Empty!"
+            
         } else {
             let username = emailTextInput.text
             let password = passwordTextInput.text
@@ -74,9 +94,17 @@ class LoginViewController: UIViewController {
             { (success, errorString) in
                 performUIUpdatesOnMain {
                     if success {
-                        self.completeLogin()
+                        
+                        if (errorString == "Account Invalid") {
+                            self.popAlert("LOGIN ERROR", errorString: "Account does not exist for the username and password you entered")
+                            return
+                        }
+                        else if (errorString == "Account Valid") {
+                            self.completeLogin()
+                        }
                     } else {
                         self.loginStatement.text="User not registered please sign up!"
+                        self.popAlert("LOGIN ERROR", errorString: "Can't Login to Udacity at this Time Please try again later")
                       }
                 }
                 
@@ -95,30 +123,18 @@ class LoginViewController: UIViewController {
     
     // Login via Facebook to Udacity
     @IBAction func facebookPressed(sender:AnyObject) {
-        
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
-            request.HTTPMethod = "POST"
-            request.addValue("application/json", forHTTPHeaderField: "Accept")
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.HTTPBody = "{\"facebook_mobile\": {\"access_token\": \"DADFMS4SN9e8BAD6vMs6yWuEcrJlMZChFB0ZB0PCLZBY8FPFYxIPy1WOr402QurYWm7hj1ZCoeoXhAk2tekZBIddkYLAtwQ7PuTPGSERwH1DfZC5XSef3TQy1pyuAPBp5JJ364uFuGw6EDaxPZBIZBLg192U8vL7mZAzYUSJsZA8NxcqQgZCKdK4ZBA2l2ZA6Y1ZBWHifSM0slybL9xJm3ZBbTXSBZCMItjnZBH25irLhIvbxj01QmlKKP3iOnl8Ey;\"}}".dataUsingEncoding(NSUTF8StringEncoding)
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request) { data, response, error in
-            if error != nil {
-                // Handle error...
-                return
-            }
-            
-            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
-            print(NSString(data: newData, encoding: NSUTF8StringEncoding))
-            
-            self.completeLogin()
-        }
-        
-        task.resume()
+        popAlert("ERROR", errorString:"This feature will be available in Version 2.0")
     }
 
-}
+    //FUNC: popAlert(): Display an Alrt Box
+    func popAlert(typeOfAlert: String, errorString: String) {
+        let alertController = UIAlertController(title: typeOfAlert, message: errorString, preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
 
+
+}
 
 // LoginViewController (UI)
 extension LoginViewController {

@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class AddLocViewController: UIViewController {
+class AddLocViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: Outlets
     
@@ -22,6 +22,9 @@ class AddLocViewController: UIViewController {
     
     @IBOutlet weak var formatLabel: UILabel!
     @IBOutlet weak var OldLocLabel: UILabel!
+    
+    @IBOutlet weak var botConstraint: NSLayoutConstraint!
+    
     
     //Initializes
     var searchLoc:String?
@@ -47,9 +50,46 @@ class AddLocViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+
         SearchForLocation()
+        NewLinkInput.delegate = self
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(UpdateLocViewController.dismissKey)))
     }
     
+    
+    func keyboardWillShow(notification: NSNotification) {
+        
+        //To retrieve keyboard size, uncomment following line
+        //let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue()
+        botConstraint.constant = 260
+        UIView.animateWithDuration(0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        //To retrieve keyboard size, uncomment following line
+        //let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue()
+        botConstraint.constant = 20
+        UIView.animateWithDuration(0.3) {
+            self.view.layoutIfNeeded()
+        }    }
+    
+    func dismissKey() {
+        NewLinkInput.resignFirstResponder()
+    }
+    
+    
+    func initializeTextFields() {
+        NewLinkInput.delegate = self
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) ->Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
@@ -70,6 +110,12 @@ class AddLocViewController: UIViewController {
             OldLocLabel.hidden = true}
                 
         let localSearchRequest = MKLocalSearchRequest()
+        
+        let myActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+        myActivityIndicator.center = view.center
+        myActivityIndicator.startAnimating()
+        view.addSubview(myActivityIndicator)
+        
         localSearchRequest.naturalLanguageQuery = searchLoc
         let localSearch = MKLocalSearch(request: localSearchRequest)
         localSearch.startWithCompletionHandler { (localSearchResponse, error) -> Void in
@@ -78,7 +124,9 @@ class AddLocViewController: UIViewController {
                 self.popAlert("ERROR",errorString: "Place Not Found")
                 return
             }
-            
+            else {
+                
+            }
             let appDel: AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
             
             
@@ -94,7 +142,7 @@ class AddLocViewController: UIViewController {
             self.MapView.centerCoordinate = userAnnotation.coordinate
             self.MapView.setRegion(MKCoordinateRegionMakeWithDistance(userAnnotation.coordinate, 2000, 2000), animated: true)
             self.MapView.addAnnotation(pinAnnotationUser.annotation!)
-            
+            myActivityIndicator.stopAnimating()
         }
     }
     

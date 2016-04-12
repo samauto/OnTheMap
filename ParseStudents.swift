@@ -37,6 +37,8 @@ struct ParseStudents {
         long = (dictionary[ParseClient.JSONResponseKeys.longitude] as? Double)!
     }
     
+    static var StudentArray : [ParseStudents] = []
+    
     static func studentsFromResults(results: [[String:AnyObject]]) -> [ParseStudents] {
         
         var students = [ParseStudents]()
