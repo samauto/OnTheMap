@@ -10,8 +10,7 @@ import UIKit
 
 class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
-    //Initializes the Students Variable that will be used to populate the List
-    var studentsloc: [ParseStudents] = [ParseStudents]()
+
     
     //Initializes the User Variable that will be used to populate the Map
     var user: [UdacityUser] = [UdacityUser]()
@@ -41,7 +40,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         ParseClient.sharedInstance().getStudentLocations() { (sucess, results, errorString) in
             if(results != nil) {
-                self.studentsloc = results!
+                    Students.sharedInstance().studentsloc = results!
                 dispatch_async(dispatch_get_main_queue()) {
                     self.ListTableView.reloadData()
                 }
@@ -58,7 +57,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         let cell:CustomListViewCell = tableView.dequeueReusableCellWithIdentifier("CustomListViewCell") as! CustomListViewCell
         
-        let stud = self.studentsloc[indexPath.row]
+        let stud = Students.sharedInstance().studentsloc[indexPath.row]
        
         
         cell.InfoButton.image = UIImage(named: "Info")
@@ -93,14 +92,14 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     // FUNC:  Counts the number of Entries on the List
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.studentsloc.count
+        return Students.sharedInstance().studentsloc.count
     }
     
     
     // FUNC:  Links the URL that is associated with each entry on the List
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let app = UIApplication.sharedApplication()
-        let location = self.studentsloc[indexPath.row]
+        let location = Students.sharedInstance().studentsloc[indexPath.row]
         let mediaURL = location.Link
         
         

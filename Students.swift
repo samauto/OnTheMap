@@ -10,7 +10,8 @@ import Foundation
 
 class Students {
     
-    var studs: [ParseStudents] = [ParseStudents]()
+    var studentsloc: [ParseStudents] = [ParseStudents]()
+    //Initializes the Students Variable that will be used to populate the List
     
     class func sharedInstance() -> Students {
         struct Singleton {

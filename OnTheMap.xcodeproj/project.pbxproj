@@ -51,7 +51,7 @@
 		04FB5D6E1CB2F2840013AC1D /* UpdateLocViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateLocViewController.swift; sourceTree = "<group>"; };
 		04FB5D721CB344C90013AC1D /* AddLocViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLocViewController.swift; sourceTree = "<group>"; };
 		04FD1F491CBAFB5200CE1B7A /* CustomListViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomListViewCell.swift; sourceTree = "<group>"; };
-		04FD1F4D1CBDE47100CE1B7A /* Students.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Students.swift; sourceTree = "<group>"; };
+		04FD1F4D1CBDE47100CE1B7A /* Students.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Students.swift; path = ../Students.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +85,7 @@
 		048E1EC41CA5E65A0064760C /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
+				04FD1F4D1CBDE47100CE1B7A /* Students.swift */,
 				048E1EC51CA5E65A0064760C /* AppDelegate.swift */,
 				049C656A1CA755D400044FC3 /* LoginViewController.swift */,
 				049C65701CA8C6D900044FC3 /* GCDBlackBox.swift */,
@@ -144,7 +145,6 @@
 				04AB64221CAC1CD200A83C08 /* ParseConstants.swift */,
 				043030121CAD65B700A491B9 /* ParseConvenience.swift */,
 				043030141CAD6BD500A491B9 /* ParseStudents.swift */,
-				04FD1F4D1CBDE47100CE1B7A /* Students.swift */,
 			);
 			name = Parse;
 			sourceTree = "<group>";
