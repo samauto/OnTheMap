@@ -26,6 +26,7 @@
 		04FB5D731CB344C90013AC1D /* AddLocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FB5D721CB344C90013AC1D /* AddLocViewController.swift */; };
 		04FD1F3C1CB6CAA100CE1B7A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 048E1ECC1CA5E65A0064760C /* Assets.xcassets */; };
 		04FD1F4A1CBAFB5200CE1B7A /* CustomListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD1F491CBAFB5200CE1B7A /* CustomListViewCell.swift */; };
+		04FD1F4E1CBDE47100CE1B7A /* Students.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD1F4D1CBDE47100CE1B7A /* Students.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		04FB5D6E1CB2F2840013AC1D /* UpdateLocViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateLocViewController.swift; sourceTree = "<group>"; };
 		04FB5D721CB344C90013AC1D /* AddLocViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLocViewController.swift; sourceTree = "<group>"; };
 		04FD1F491CBAFB5200CE1B7A /* CustomListViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomListViewCell.swift; sourceTree = "<group>"; };
+		04FD1F4D1CBDE47100CE1B7A /* Students.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Students.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 				04AB64221CAC1CD200A83C08 /* ParseConstants.swift */,
 				043030121CAD65B700A491B9 /* ParseConvenience.swift */,
 				043030141CAD6BD500A491B9 /* ParseStudents.swift */,
+				04FD1F4D1CBDE47100CE1B7A /* Students.swift */,
 			);
 			name = Parse;
 			sourceTree = "<group>";
@@ -217,6 +220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04FD1F4E1CBDE47100CE1B7A /* Students.swift in Sources */,
 				049C656B1CA755D400044FC3 /* LoginViewController.swift in Sources */,
 				049C656F1CA8C55C00044FC3 /* MapViewController.swift in Sources */,
 				04FB5D6F1CB2F2840013AC1D /* UpdateLocViewController.swift in Sources */,

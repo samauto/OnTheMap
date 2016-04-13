@@ -54,6 +54,16 @@ extension UdacityClient {
         static let ulink = "website_url"
         static let ukey = "key"
     }
+    
+    //AlERTS
+    struct UAlerts {
+        static let NetDown = "NETWORK FAILURE"
+        static let NetDownMessage = "The Network is Down! Please try again later!"
+        static let LoginDown = "LOGIN ERROR"
+        static let LoginDownMessage = "Account does not exist for the username and password you entered!"
+        static let FutDown = "COMING SOON"
+        static let FutDownMessage = "This feature will be available in the Next Version"
+    }
 
 }
 

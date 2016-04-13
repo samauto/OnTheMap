@@ -130,7 +130,6 @@ class UpdateLocViewController: UIViewController, UITextFieldDelegate {
             usernewlocViewController.searchID = self.UserID.text!
             usernewlocViewController.searchCurrLoc = self.UserCurrentLoc.text!
             usernewlocViewController.searchLoc = self.LocNowInput.text!
-            
             usernewlocViewController.searchURL = self.UserMediaURL.text!
             usernewlocViewController.searchFirst = self.searchFirst
             usernewlocViewController.searchLast = self.searchLast
@@ -167,8 +166,6 @@ class UpdateLocViewController: UIViewController, UITextFieldDelegate {
             localSearchRequest.naturalLanguageQuery = self.searchCurrLoc!
             let localSearch = MKLocalSearch(request: localSearchRequest)
             localSearch.startWithCompletionHandler { (localSearchResponse, error) -> Void in
-                
-                
                 
                 if localSearchResponse == nil{
                     self.popAlert("ERROR",errorString: "Place Not Found")

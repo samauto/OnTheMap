@@ -51,14 +51,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return true
     }
 
-
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
     }
@@ -96,15 +88,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     if success {
                         
                         if (errorString == "Account Invalid") {
-                            self.popAlert("LOGIN ERROR", errorString: "Account does not exist for the username and password you entered")
+                            self.loginStatement.text="User not registered please sign up!"
+                            self.popAlert(UdacityClient.UAlerts.LoginDown, errorString: UdacityClient.UAlerts.LoginDownMessage)
                             return
                         }
                         else if (errorString == "Account Valid") {
                             self.completeLogin()
                         }
                     } else {
-                        self.loginStatement.text="User not registered please sign up!"
-                        self.popAlert("LOGIN ERROR", errorString: "Can't Login to Udacity at this Time Please try again later")
+                        self.loginStatement.text="Network is Down"
+                        self.popAlert(UdacityClient.UAlerts.NetDown, errorString: UdacityClient.UAlerts.NetDownMessage)
                       }
                 }
                 
@@ -123,7 +116,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     // Login via Facebook to Udacity
     @IBAction func facebookPressed(sender:AnyObject) {
-        popAlert("ERROR", errorString:"This feature will be available in Version 2.0")
+        popAlert(UdacityClient.UAlerts.FutDown , errorString:"")
     }
 
     //FUNC: popAlert(): Display an Alrt Box
